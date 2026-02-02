@@ -58,7 +58,7 @@ export function TodoForm({ onSubmit, disabled }: TodoFormProps) {
           className="flex shrink-0 items-center gap-2 rounded-2xl bg-brand px-5 py-3.5 font-semibold text-white shadow-soft transition hover:bg-brand-dark disabled:opacity-50"
           aria-label="Add task"
         >
-          <HiPlus className="size-5" />
+          <HiPlus className="w-5 h-5" />
           <span className="hidden sm:inline">Add</span>
         </button>
       </div>

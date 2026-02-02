@@ -46,25 +46,25 @@ export function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoItemProps) 
   };
 
   return (
-    <li
-      className={`flex items-center gap-4 rounded-2xl border border-stone-200/80 bg-white px-4 py-3.5 shadow-soft transition hover:shadow-soft-lg ${
-        todo.completed ? 'opacity-80' : ''
+    <div
+      className={`flex items-center gap-2 rounded-lg border border-stone-200/60 bg-white px-2 py-2 shadow-sm transition hover:shadow-md ${
+        todo.completed ? 'opacity-70' : ''
       }`}
     >
       <button
         type="button"
         onClick={() => onToggle(todo.id, !todo.completed)}
-        className={`flex size-11 shrink-0 items-center justify-center rounded-xl border-2 transition ${
+        className={`w-5 h-5 flex shrink-0 items-center justify-center rounded border transition ${
           todo.completed
             ? 'border-brand bg-brand text-white'
             : 'border-stone-300 text-stone-400 hover:border-brand-light hover:text-brand'
         }`}
         aria-label={todo.completed ? 'Unmark as complete' : 'Mark as complete'}
       >
-        {todo.completed && <HiCheck className="size-6" strokeWidth={2.5} />}
+        {todo.completed && <HiCheck className="w-2.5 h-2.5" strokeWidth={3.5} />}
       </button>
 
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 overflow-hidden">
         {editing ? (
           <input
             ref={inputRef}
@@ -74,11 +74,11 @@ export function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoItemProps) 
             onBlur={handleSaveEdit}
             onKeyDown={handleKeyDown}
             maxLength={500}
-            className="w-full rounded-xl border-2 border-surface-200 bg-surface-50 px-3 py-2 text-stone-800 outline-none focus:border-brand focus:shadow-glow"
+            className="w-full rounded-md border border-surface-200 bg-surface-50 px-2 py-1 text-xs text-stone-800 outline-none focus:border-brand focus:shadow-glow"
           />
         ) : (
           <span
-            className={`block truncate text-base font-medium ${
+            className={`block text-xs font-medium leading-tight line-clamp-2 ${
               todo.completed
                 ? 'text-stone-500 line-through decoration-stone-400'
                 : 'text-stone-800'
@@ -89,45 +89,45 @@ export function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoItemProps) 
         )}
       </div>
 
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="flex shrink-0 items-center gap-1">
         {editing ? (
           <select
             value={todo.priority}
             onChange={(e) =>
               onUpdate(todo.id, { priority: e.target.value as TodoPriority })
             }
-            className="rounded-xl border-2 border-surface-200 bg-surface-50 px-2.5 py-1.5 text-xs font-medium text-stone-700 outline-none focus:border-brand"
+            className="rounded border border-surface-200 bg-surface-50 px-1 py-0.5 text-xs text-stone-700 outline-none focus:border-brand"
           >
             {PRIORITIES.map((p) => (
               <option key={p} value={p}>
-                {p === 'high' ? 'High' : p === 'medium' ? 'Medium' : 'Low'}
+                {p === 'high' ? 'H' : p === 'medium' ? 'M' : 'L'}
               </option>
             ))}
           </select>
         ) : (
-          <PriorityBadge priority={todo.priority} size="sm" />
+          <PriorityBadge priority={todo.priority} size="xs" />
         )}
         {!editing && (
           <>
             <button
               type="button"
               onClick={() => setEditing(true)}
-              className="rounded-xl p-2.5 text-stone-400 transition hover:bg-brand-tint hover:text-brand"
+              className="rounded p-0.5 text-stone-400 transition hover:bg-brand-tint hover:text-brand"
               aria-label="Edit"
             >
-              <HiPencil className="size-4" />
+              <HiPencil className="w-3 h-3" />
             </button>
             <button
               type="button"
               onClick={() => onDelete(todo.id)}
-              className="rounded-xl p-2.5 text-stone-400 transition hover:bg-red-50 hover:text-red-600"
+              className="rounded p-0.5 text-stone-400 transition hover:bg-red-50 hover:text-red-600"
               aria-label="Delete"
             >
-              <HiTrash className="size-4" />
+              <HiTrash className="w-3 h-3" />
             </button>
           </>
         )}
       </div>
-    </li>
+    </div>
   );
 }

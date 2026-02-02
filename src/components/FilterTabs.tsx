@@ -47,7 +47,7 @@ export function FilterTabs({ value, onChange, counts }: FilterTabsProps) {
             aria-pressed={isActive}
             aria-label={`${tab.label} (${count} items)`}
           >
-            <Icon className="size-4 shrink-0" />
+            <Icon className="w-4 h-4 shrink-0" />
             <span>{tab.label}</span>
             <span
               className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${

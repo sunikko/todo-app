@@ -24,21 +24,19 @@ const config: Record<
 
 interface PriorityBadgeProps {
   priority: TodoPriority;
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
 }
 
 export function PriorityBadge({ priority, size = 'sm' }: PriorityBadgeProps) {
   const { label, className, icon: Icon } = config[priority];
-  const sizeClass =
-    size === 'sm' ? 'text-xs px-2 py-1' : 'text-sm px-2.5 py-1.5';
+  const sizeClass = size === 'xs' ? 'p-0.5' : size === 'sm' ? 'p-1' : 'p-1.5';
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-lg border font-semibold ${sizeClass} ${className}`}
+      className={`inline-flex items-center justify-center rounded border ${sizeClass} ${className}`}
       title={`Priority: ${label}`}
     >
-      <Icon className={size === 'sm' ? 'size-3.5' : 'size-4'} />
-      {label}
+      <Icon className={size === 'xs' ? 'w-2.5 h-2.5' : size === 'sm' ? 'w-3 h-3' : 'w-4 h-4'} />
     </span>
   );
 }

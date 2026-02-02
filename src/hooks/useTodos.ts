@@ -94,6 +94,7 @@ export function useTodos() {
         priority,
         createdAt: now,
         updatedAt: now,
+        status: 'todo',
       };
 
       if (db) {
@@ -104,6 +105,7 @@ export function useTodos() {
           priority,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
+          status: 'todo',
         }).catch((err) => setError(err.message));
       } else {
         setTodos((prev) => sortTodos([...prev, newTodo]));
@@ -115,18 +117,27 @@ export function useTodos() {
   const updateTodo = useCallback(
     (
       id: string,
-      updates: Partial<Pick<Todo, 'title' | 'completed' | 'priority'>>
+      updates: Partial<Pick<Todo, 'title' | 'completed' | 'priority' | 'status'>>
     ) => {
+      // Keep 'completed' and 'status' consistent: completed -> done, status 'done' -> completed
+      const normalizedUpdates: Partial<Record<string, any>> = { ...updates };
+      if (typeof updates.completed === 'boolean' && updates.status === undefined) {
+        normalizedUpdates.status = updates.completed ? 'done' : 'todo';
+      }
+      if (typeof updates.status === 'string' && updates.completed === undefined) {
+        normalizedUpdates.completed = updates.status === 'done';
+      }
+
       if (db) {
         const ref = doc(db, COLLECTION, id);
-        const payload = { ...updates, updatedAt: serverTimestamp() };
+        const payload = { ...normalizedUpdates, updatedAt: serverTimestamp() };
         updateDoc(ref, payload).catch((err) => setError(err.message));
       } else {
         setTodos((prev) =>
           sortTodos(
             prev.map((t) =>
               t.id === id
-                ? { ...t, ...updates, updatedAt: Timestamp.fromDate(new Date()) }
+                ? { ...t, ...normalizedUpdates, updatedAt: Timestamp.fromDate(new Date()) }
                 : t
             )
           )

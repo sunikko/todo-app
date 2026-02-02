@@ -17,11 +17,7 @@ export function Home() {
     isConfigured,
   } = useTodos();
 
-  const filteredTodos = useMemo(() => {
-    if (filter === 'all') return todos;
-    if (filter === 'active') return todos.filter((t) => !t.completed);
-    return todos.filter((t) => t.completed);
-  }, [todos, filter]);
+  // Note: Kanban shows all tasks; filters control other list views if used elsewhere
 
   const counts = useMemo(
     () => ({
@@ -34,7 +30,7 @@ export function Home() {
 
   return (
     <div className="min-h-screen py-10 sm:py-16">
-      <div className="mx-auto max-w-xl px-5">
+      <div className="mx-auto max-w-7xl px-5">
         <header className="mb-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
             Todo List
@@ -61,7 +57,7 @@ export function Home() {
 
         <section>
           <TodoList
-            todos={filteredTodos}
+            todos={todos}
             totalCount={todos.length}
             loading={loading}
             error={error}

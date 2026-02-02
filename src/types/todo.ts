@@ -9,6 +9,7 @@ export interface Todo {
   priority: TodoPriority;
   createdAt: Timestamp;
   updatedAt: Timestamp;
+  status: 'todo' | 'in-progress' | 'done';
 }
 
 export interface TodoInput {
